@@ -1,0 +1,12 @@
+package com.java.sso.controller;
+
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class IndexController {
+
+	public String showIndex() {
+		
+		return "login";
+	}
+}

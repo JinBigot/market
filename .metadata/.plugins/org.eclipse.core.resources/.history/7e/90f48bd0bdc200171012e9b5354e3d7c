@@ -1,0 +1,35 @@
+package com.java.item.controller;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+
+@Controller
+public class FreeMarkerSpringTest {
+	
+	@Resource
+	private FreeMarkerConfigurer freeMarkerConfigurer;
+
+	public String creatHtml() throws Exception {
+		//创建configuration 
+		Configuration configuration = freeMarkerConfigurer.getConfiguration();
+		Template template = configuration.getTemplate("hello.ftl");
+		Map map = new HashMap<>();
+		map.put("hello", "hello world");
+		Writer writer = new FileWriter(new File("D:\\Perdio6\\hello2.html"));
+		template.process(map, writer);
+		writer.close();
+		return null;
+	}
+}

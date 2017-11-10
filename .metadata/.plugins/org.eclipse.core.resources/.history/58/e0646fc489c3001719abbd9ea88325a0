@@ -1,0 +1,31 @@
+package com.java.sso.service.impl;
+
+import com.java.constant.Constant;
+import com.java.dto.MarketResult;
+import com.java.sso.service.UserServiceI;
+
+@org.springframework.stereotype.Service
+public class UserServiceImpl implements UserServiceI {
+
+	
+	
+	@Override
+	public MarketResult checkData(String param, int type) {
+		switch (type) {
+		case Constant.USER_EMAIL:
+
+			break;
+		case Constant.USER_PHONE:
+
+			break;
+		case Constant.USER_USERNAME:
+
+			break;
+
+		default:
+			break;
+		}
+		return null;
+	}
+
+}

@@ -1,0 +1,14 @@
+package com.java.sso.service.impl;
+
+import com.java.dto.MarketResult;
+import com.java.sso.service.UserServiceI;
+
+public class UserServiceImpl implements UserServiceI {
+
+	@Override
+	public MarketResult checkData(String param, int type) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,8 @@
+package com.java.sso.service;
+
+import com.java.dto.MarketResult;
+
+public interface UserServiceI {
+	
+	MarketResult checkData(String param,int type);
+}

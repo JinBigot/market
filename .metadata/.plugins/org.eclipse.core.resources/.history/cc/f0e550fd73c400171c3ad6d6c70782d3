@@ -1,0 +1,33 @@
+package com.java.cart.controller;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.java.model.TbItem;
+import com.java.service.ItemServiceI;
+import com.java.utils.CookieUtils;
+
+@Controller
+@RequestMapping("cart")
+public class CartController {
+	
+	@Resource
+	private ItemServiceI itemServiceI;
+	
+	@Value("${MARKET_CART_TOKEN}")
+	private String MARKET_CART_TOKEN;
+
+	@RequestMapping("add/{itemId}")
+	public String addItem(@PathVariable Long itemId, String num,HttpServletRequest request) {
+		//先去redis中根据cookie的token查找是否存在这条数据
+		CookieUtils.getCookieValue(request, cookieName, isDecoder)
+		//判断更具itemId查询的tbItem在redis中是否存在
+		TbItem tbItem = itemServiceI.getItemById(itemId);
+		return "cartSuccess";
+	}
+}

@@ -1,0 +1,17 @@
+INDEX VERSION 1.4+D:\Perdio6\Java\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+3642335409.index
+2437427859.index
+1411221233.index
+1408220108.index
+316329554.index
+1141855488.index
+4275564629.index
+2841822705.index
+168927012.index
+3751987792.index
+2199449216.index
+1157277438.index
+3026602516.index
+4115528204.index
+3077590352.index
+2456599995.index

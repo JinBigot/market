@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<typeInfoHistroy>
+<typeInfo handle="=market-manager-interface/src\/main\/java&lt;com.java.service{ItemServiceI.java[ItemServiceI" modifiers="513" timestamp="1509765533179"/>
+<typeInfo handle="=market-manager-interface/src\/main\/java&lt;com.java.service{ItemCatTreeServiceI.java[ItemCatTreeServiceI" modifiers="513" timestamp="1508831413019"/>
+<typeInfo handle="=market-manager-interface/src\/main\/java&lt;com.java.service{ItemEditServiceI.java[ItemEditServiceI" modifiers="513" timestamp="1508844664105"/>
+<typeInfo handle="=market-context-interface/src\/main\/java&lt;com.java.context.service{ContextCategoryTreeServiceI.java[ContextCategoryTreeServiceI" modifiers="513" timestamp="1509019669375"/>
+<typeInfo handle="=market-context-interface/src\/main\/java&lt;com.java.context.service{ContextServiceI.java[ContextServiceI" modifiers="513" timestamp="1509092673830"/>
+<typeInfo handle="=market-manager-interface/src\/main\/java&lt;com.java.service{ItemParamServiceI.java[ItemParamServiceI" modifiers="513" timestamp="1509174456179"/>
+<typeInfo handle="=market-search-interface/src\/main\/java&lt;com.java.search.service{SearchItemServiceI.java[SearchItemServiceI" modifiers="513" timestamp="1509777518717"/>
+<typeInfo handle="=market-search-web/D:\/repository\/org\/springframework\/spring-webmvc\/4.2.4.RELEASE\/spring-webmvc-4.2.4.RELEASE.jar&lt;org.springframework.web.servlet(HandlerExceptionResolver.class[HandlerExceptionResolver" modifiers="1537" timestamp="1463390358142"/>
+<typeInfo handle="=market-search-web/D:\/repository\/org\/springframework\/spring-webmvc\/4.2.4.RELEASE\/spring-webmvc-4.2.4.RELEASE.jar&lt;org.springframework.web.servlet.mvc.method.annotation(ResponseBodyEmitter$Handler.class[Handler" modifiers="1544" timestamp="1463390358142"/>
+<typeInfo handle="=market-search-service/D:\/repository\/org\/apache\/activemq\/activemq-all\/5.11.2\/activemq-all-5.11.2.jar&lt;javax.jms(MessageListener.class[MessageListener" modifiers="1537" timestamp="1463412213137"/>
+<typeInfo handle="=market-sso-interface/src\/main\/java&lt;com.java.sso.service{UserServiceI.java[UserServiceI" modifiers="513" timestamp="1510122641847"/>
+</typeInfoHistroy>

@@ -1,0 +1,6 @@
+package com.java.constant;
+
+public interface Constant {
+
+	int U
+}

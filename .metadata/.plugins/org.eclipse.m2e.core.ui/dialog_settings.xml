@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="MavenProjectWizardArtifactPage">
+		<list key="groupId">
+			<item value="com.java"/>
+		</list>
+		<list key="name">
+		</list>
+		<list key="artifactId">
+			<item value="market-cart-web"/>
+			<item value="market-parent"/>
+			<item value="market-sso-web"/>
+			<item value="market-sso-service"/>
+			<item value="market-sso"/>
+			<item value="market-sso-interface"/>
+			<item value="market-item-web"/>
+			<item value="market-search-web"/>
+			<item value="market-search-service"/>
+			<item value="market-search"/>
+			<item value="market-search-interface"/>
+			<item value="market-context-service"/>
+			<item value="market-context"/>
+			<item value="market-context-interface"/>
+			<item value="market-portal-web"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+		<list key="version">
+			<item value="0.0.1-SNAPSHOT"/>
+		</list>
+	</section>
+	<section name="org.eclipse.m2e.core.pom.dependencies">
+	</section>
+	<section name="org.eclipse.m2e.core.pom.overview">
+		<list key="ciManagementUrl">
+		</list>
+		<list key="ciManagementSystem">
+		</list>
+		<list key="issueManagementSystem">
+		</list>
+		<list key="issueManagementUrl">
+		</list>
+	</section>
+	<section name="org.eclipse.m2e.core.ui.internal.wizards.MavenProjectSelectionDialog">
+		<item value="480" key="width"/>
+		<item value="506" key="x"/>
+		<item value="46" key="y"/>
+		<item value="552" key="height"/>
+	</section>
+	<section name="MavenProjectWizardArchetypePage">
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="MavenModuleWizardParentPage">
+		<list key="moduleName">
+			<item value="market-sso-service"/>
+			<item value="market-sso-interface"/>
+			<item value="market-search-service"/>
+			<item value="market-search-interface"/>
+			<item value="market-context-service"/>
+			<item value="market-context-interface"/>
+			<item value="market-manager-service"/>
+			<item value="market-manager-interface"/>
+			<item value="market-manager-dao"/>
+			<item value="market-manager-pojo"/>
+			<item value="com.java.dao"/>
+			<item value="com.java.pojo"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="MavenProjectWizardLocationPage">
+		<list key="location">
+			<item value="D:\Perdio6\Java\market-sso"/>
+			<item value="D:\Perdio6\Java\market-search-web"/>
+			<item value="D:\Perdio6\Java\market-parent"/>
+			<item value="D:\Perdio6\Java\market-portal-web"/>
+			<item value="D:\Perdio6\Java\market-manager\market-manager-interface"/>
+			<item value="D:\Perdio6\Java\market-common\pom.xml"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="Maven2ProjectWizardArchifactPage">
+		<list key="package">
+		</list>
+		<list key="groupId">
+		</list>
+		<list key="artifactId">
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+		<list key="version">
+			<item value="0.0.1-SNAPSHOT"/>
+		</list>
+	</section>
+</section>

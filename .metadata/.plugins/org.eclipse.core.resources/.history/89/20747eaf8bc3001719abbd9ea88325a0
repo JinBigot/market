@@ -1,0 +1,49 @@
+package com.java.sso.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.java.constant.Constant;
+import com.java.dto.MarketResult;
+import com.java.mapper.TbUserMapper;
+import com.java.model.TbUser;
+import com.java.model.TbUserExample;
+import com.java.model.TbUserExample.Criteria;
+import com.java.sso.service.UserServiceI;
+
+@Service
+public class UserServiceImpl implements UserServiceI {
+
+	@Resource
+	private TbUserMapper tbUserMapper;
+
+	@Override
+	public MarketResult checkData(String param, int type) {
+		TbUserExample example = new TbUserExample();
+		Criteria criteria = example.createCriteria();
+		boolean flag = true;
+		switch (type) {
+		case Constant.USER_EMAIL:
+			criteria.andEmailEqualTo(param);
+			break;
+		case Constant.USER_PHONE:
+			criteria.andPhoneEqualTo(param);
+			break;
+		case Constant.USER_USERNAME:
+			criteria.andUsernameEqualTo(param);
+			break;
+		default:
+			flag = false;
+			break;
+		}
+		if (flag != true) {
+			return MarketResult.build(10086, "校验不通过");
+		}
+		List<TbUser> list = tbUserMapper.selectByExample(example);
+		return MarketResult.ok(list);
+	}
+
+}

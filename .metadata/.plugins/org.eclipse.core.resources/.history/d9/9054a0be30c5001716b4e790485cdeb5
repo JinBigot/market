@@ -1,0 +1,30 @@
+package com.java.order.controller;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.java.model.TbItem;
+import com.java.utils.CookieUtils;
+import com.java.utils.JsonUtils;
+
+@Controller
+@RequestMapping("order")
+public class IndexController {
+
+	@RequestMapping("order-cart")
+	public String showIndex() {
+		return "order-cart";
+	}
+	
+	//获取用户购买的商品列表
+	private List<TbItem> getCartList(HttpServletRequest request){
+		//从cookie中获取信息
+		CookieUtils.getCookieValue(request, cookieName, true);
+		return null;
+	}
+	
+}

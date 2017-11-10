@@ -1,0 +1,13 @@
+package com.java.item.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+
+public class ItemIndexController {
+
+	@RequestMapping("item/{id}")
+	public String showIndex() {
+		
+		
+		return "item";
+	}
+}

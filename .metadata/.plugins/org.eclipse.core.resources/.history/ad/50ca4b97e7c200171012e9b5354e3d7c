@@ -1,0 +1,16 @@
+package com.java.item.dto;
+
+import com.java.model.TbItem;
+
+public class WebItem extends TbItem {
+	public String[] getImages() {
+		String webImage = this.getImage();
+		if (null != webImage && !"".equals(webImage)) {
+			String[] strings = webImage.split(",");
+			return strings;
+		}
+		return null;
+	}
+
+
+}

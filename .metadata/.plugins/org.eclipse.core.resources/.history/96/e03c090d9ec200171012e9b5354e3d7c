@@ -1,0 +1,152 @@
+package com.java.service.impl;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+import javax.jms.TextMessage;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
+import org.springframework.stereotype.Service;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.java.dto.EazyUIStyle;
+import com.java.dto.MarketResult;
+import com.java.dto.TbItemQuery;
+import com.java.mapper.TbItemDescMapper;
+import com.java.mapper.TbItemMapper;
+import com.java.mapper.TbItemParamItemMapper;
+import com.java.mapper.TbItemParamMapper;
+import com.java.model.TbItem;
+import com.java.model.TbItemDesc;
+import com.java.model.TbItemExample;
+import com.java.model.TbItemParam;
+import com.java.model.TbItemParamItem;
+import com.java.model.TbItemParamItemExample;
+import com.java.model.TbItemParamItemExample.Criteria;
+import com.java.redis.JedisClient;
+import com.java.service.ItemServiceI;
+import com.java.utils.IDUtils;
+import com.java.utils.JsonUtils;
+
+@Service
+public class ItemServiceImpl implements ItemServiceI {
+
+	@Resource
+	private TbItemMapper itemMapper;
+
+	@Resource
+	private TbItemDescMapper tbItemDescMapper;
+
+	@Resource
+	private TbItemParamItemMapper tbItemParamItemMapper;
+	
+	@Resource
+	private JmsTemplate jmsTemplate;
+	
+	@Resource
+	private Destination topicDestination;
+	
+	@Resource
+	private JedisClient jedisClient;
+	
+	@Value("${ITEM_INFO_PRE}")
+	private String ITEM_INFO_PRE;
+
+	@Override
+	public TbItem getItemById(Long id) {
+		TbItem item = itemMapper.selectByPrimaryKey(id);
+		return item;
+	}
+
+	@Override
+	public EazyUIStyle getAllList(Integer pagenum, Integer rows) {
+		TbItemExample example = new TbItemExample();
+		PageHelper.startPage(pagenum, rows);
+
+		List<TbItemQuery> items = itemMapper.selectByExampleQuery(example);
+
+		PageInfo<TbItemQuery> info = new PageInfo<>(items);
+		EazyUIStyle eazyUIStyle = new EazyUIStyle();
+		eazyUIStyle.setTotal(info.getTotal());
+		eazyUIStyle.setRows(info.getList());
+		return eazyUIStyle;
+	}
+
+	@Override
+	public MarketResult insertItem(TbItem tbItem, String desc) {
+		// 调用IDutil生成随机id
+		final long itemId = IDUtils.getItemId();
+		// 将tbItem信息补全
+		tbItem.setId(itemId);
+		tbItem.setStatus((byte) 1);
+		tbItem.setCreated(new Date());
+		tbItem.setUpdated(new Date());
+		itemMapper.insert(tbItem);
+		// 将desc信息补全
+		TbItemDesc tbItemDesc = new TbItemDesc();
+		tbItemDesc.setItemId(itemId);
+		tbItemDesc.setCreated(new Date());
+		tbItemDesc.setUpdated(new Date());
+		tbItemDesc.setItemDesc(desc);
+		tbItemDescMapper.insert(tbItemDesc);
+		//往activemq中添加商品新增消息
+		jmsTemplate.send(topicDestination, new MessageCreator() {
+			@Override
+			public Message createMessage(Session session) throws JMSException {
+				TextMessage textMessage = session.createTextMessage(itemId+"");
+				return textMessage;
+			}
+		});
+		return MarketResult.ok();
+	}
+
+	@Override
+	public MarketResult updateItem(TbItem item) {
+		item.setUpdated(new Date());
+		itemMapper.updateByPrimaryKeySelective(item);
+		return MarketResult.ok();
+	}
+
+	@Override
+	public MarketResult queryItemById(Long id) {
+		TbItemDesc desc = tbItemDescMapper.selectByPrimaryKey(id);
+		MarketResult marketResult = new MarketResult().ok(desc);
+		return marketResult;
+	}
+
+	@Override
+	public MarketResult queryParamItemById(Long id) {
+		// 通过id查找cid 然后cid==》商品规格
+		TbItemParamItemExample item = new TbItemParamItemExample();
+		Criteria criteria = item.createCriteria();
+		criteria.andItemIdEqualTo(id);
+		List<TbItemParamItem> itemParam = tbItemParamItemMapper.selectByExampleWithBLOBs(item);
+		if (null != itemParam && itemParam.size() > 0) {
+			return MarketResult.ok(itemParam.get(0));
+		} else {
+			return MarketResult.ok();
+		}
+	}
+
+	@Override
+	public TbItemDesc getItemDescById(Long itemId) {
+		//先从redis缓存找 没有在从数据库找并保存到redis
+		String itemJson = jedisClient.get("");
+		if(StringUtils.isNotBlank(itemJson)) {
+			TbItemDesc tbItemDesc = JsonUtils.jsonToPojo(itemJson, TbItemDesc.class);
+			return tbItemDesc;
+		}
+		TbItemDesc tbItemDesc = tbItemDescMapper.selectByPrimaryKey(itemId);
+		//存到数据库 ，并添加缓存
+		return tbItemDesc;
+	}
+}

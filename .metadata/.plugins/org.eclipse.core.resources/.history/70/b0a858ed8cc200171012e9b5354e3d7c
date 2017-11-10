@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.search.mapper.ItemSearchMapper">
+	<select id="getAllItems" resultType="com.java.dto.ItemSearch">
+		SELECT ti.`id`,
+		ti.`title`,
+		ti.`sell_point`,
+		ti.`price`,
+		ti.`image`,
+		tid.`item_desc`,
+		tic.`name` categoryName
+		FROM `tb_item` ti
+		LEFT JOIN `tb_item_desc`tid
+		ON
+		ti.`id`=tid.`item_id`
+		LEFT JOIN `tb_item_cat` tic
+		ON ti.`cid`=tic.`id`
+		WHERE ti.`status`=1
+	</select>
+
+	<select id="findItemById" resultType="com.java.dto.ItemSearch">
+		SELECT ti.`id`,
+				ti.`title`,
+				ti.`sell_point`,
+				ti.`price`,
+				ti.`image`,
+				tid.`item_desc`,
+				tic.`name` categoryName
+		FROM `tb_item` ti
+		LEFT JOIN `tb_item_desc`tid
+		ON
+		ti.`id`=tid.`item_id`
+		LEFT JOIN `tb_item_cat` tic
+		ON ti.`cid`=tic.`id`
+		WHERE ti.`status`=1
+		AND ti.`id`=#{itemId}
+	</select>
+</mapper> 

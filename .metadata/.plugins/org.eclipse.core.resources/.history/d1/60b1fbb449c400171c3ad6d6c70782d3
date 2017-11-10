@@ -1,0 +1,15 @@
+package com.java.sso.service;
+
+import com.java.dto.MarketResult;
+import com.java.model.TbUser;
+
+public interface UserServiceI {
+	
+	MarketResult checkData(String param,int type);
+	
+	MarketResult createUser(TbUser tbUser,String pwdRepeat);
+	
+	MarketResult userLogin(String userName,String password);
+	
+//	MarketResult getUserToken(String token);
+}

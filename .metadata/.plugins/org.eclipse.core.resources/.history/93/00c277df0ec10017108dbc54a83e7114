@@ -1,0 +1,24 @@
+package com.java.item.controller;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.java.service.ItemServiceI;
+
+@Controller
+public class ItemIndexController {
+
+	@Resource
+	private ItemServiceI itemService;
+	
+	@RequestMapping("item/{itemId}")
+	public String showIndex(@PathVariable Long itemId ,Model model) {
+		
+		
+		return "item";
+	}
+}

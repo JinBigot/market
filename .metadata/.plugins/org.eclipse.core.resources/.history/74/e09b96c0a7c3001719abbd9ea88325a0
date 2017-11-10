@@ -1,0 +1,94 @@
+package com.java.sso.service.impl;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
+
+import com.java.constant.Constant;
+import com.java.dto.MarketResult;
+import com.java.mapper.TbUserMapper;
+import com.java.model.TbUser;
+import com.java.model.TbUserExample;
+import com.java.model.TbUserExample.Criteria;
+import com.java.sso.service.UserServiceI;
+
+@Service
+public class UserServiceImpl implements UserServiceI {
+
+	@Resource
+	private TbUserMapper tbUserMapper;
+
+	@Override
+	public MarketResult checkData(String param, int type) {
+		if (StringUtils.isBlank(param)) {
+			// return false;
+			return MarketResult.build(400, "数据异常");
+		}
+		return !checkUserData(param, type) ? MarketResult.ok() : MarketResult.build(Constant.USER_CHECK_FAIL, "账户已存在");
+		//
+		// return MarketResult.build(Constant.USER_CHECK_FAIL, "账户已存在");
+	}
+
+	private boolean checkUserData(String param, int type) {
+		boolean flag = true;
+		TbUserExample example = new TbUserExample();
+		Criteria criteria = example.createCriteria();
+		switch (type) {
+		case Constant.USER_EMAIL:
+			// 正则校验email格式
+			criteria.andEmailEqualTo(param);
+			break;
+		case Constant.USER_PHONE:
+			// 正则校验手机
+			criteria.andPhoneEqualTo(param);
+			break;
+		case Constant.USER_USERNAME:
+			// 校验用户名
+			criteria.andUsernameEqualTo(param);
+			break;
+		default:
+			//type不存在返回false
+			flag = false;
+			break;
+		}
+		List<TbUser> list = tbUserMapper.selectByExample(example);
+		// list有值
+		if (!list.isEmpty()) {
+			flag=false;
+		}
+		return flag;
+	}
+
+	@Override
+	public MarketResult createUser(TbUser tbUser, String pwdRepeat) {
+		if (null == tbUser || tbUser.getUsername().isEmpty() || tbUser.getPassword().isEmpty()
+				|| tbUser.getPhone().isEmpty()) {
+			return MarketResult.build(400, "用户名、密码、手机号不能为空");
+		}
+		if (checkUserData(tbUser.getUsername(), Constant.USER_USERNAME)) {
+			return MarketResult.build(400, "用户名不能为空");
+		}
+		if (checkUserData(tbUser.getPhone(), Constant.USER_PHONE)) {
+			return MarketResult.build(400, "手机号码不能为空");
+		}
+		if (StringUtils.isBlank(tbUser.getPassword())) {
+			return MarketResult.build(400, "密码不能为空");
+		}
+		tbUser.setPassword(DigestUtils.md5DigestAsHex(tbUser.getPassword().getBytes()));
+		tbUser.setUpdated(new Date());
+		tbUser.setCreated(new Date());
+		tbUserMapper.insert(tbUser);
+		return null;
+	}
+
+	@Override
+	public MarketResult userLogin(String userName, String password) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

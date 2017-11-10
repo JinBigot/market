@@ -1,0 +1,5 @@
+package com.java.item.dto;
+
+public class WebItem {
+
+}

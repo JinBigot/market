@@ -1,0 +1,26 @@
+package com.java.sso.controller;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.java.dto.MarketResult;
+import com.java.sso.service.UserServiceI;
+
+@Controller
+@RequestMapping("user")
+public class UserController {
+	
+	@Resource
+	private UserServiceI userServiceI;
+
+	@RequestMapping("check/{param}/{type}")
+	@ResponseBody
+	public MarketResult checkData(@PathVariable String param,@PathVariable Integer type) {
+		
+		return null;
+	}
+}

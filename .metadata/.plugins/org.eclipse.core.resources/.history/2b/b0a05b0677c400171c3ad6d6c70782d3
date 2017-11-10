@@ -1,0 +1,55 @@
+package com.java.cart.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.java.model.TbItem;
+import com.java.service.ItemServiceI;
+import com.java.utils.CookieUtils;
+import com.java.utils.JsonUtils;
+
+@Controller
+@RequestMapping("cart")
+public class CartController {
+
+	@Resource
+	private ItemServiceI itemServiceI;
+
+	@Value("${MARKET_CART_TOKEN}")
+	private String MARKET_CART_TOKEN;
+
+	@RequestMapping("add/{itemId}")
+	public String addItem(@PathVariable Long itemId, Integer num, HttpServletRequest request,
+			HttpServletResponse response) {
+		// 先去cookie中通过cookie的id查询商品信息
+		String string = CookieUtils.getCookieValue(request, MARKET_CART_TOKEN + itemId, "UTF-8");
+		// 如果不为空
+		List<TbItem> list = new ArrayList<>();
+		if (StringUtils.isNotBlank(string)) {
+			// 将获得的信息转成list集合
+			list = JsonUtils.jsonToList(string, TbItem.class);
+			// 遍历集合 判断集合中是否有要添加的商品
+			for (TbItem item : list) {
+				// 如果有
+				if (item.getId() == itemId.longValue()) {
+					// 数量设置新值
+					item.setNum(num = item.getNum() + num);
+					
+				}
+			}
+		}
+		// 判断更具itemId查询的tbItem在redis中是否存在
+		TbItem tbItem = itemServiceI.getItemById(itemId);
+		return "cartSuccess";
+	}
+}

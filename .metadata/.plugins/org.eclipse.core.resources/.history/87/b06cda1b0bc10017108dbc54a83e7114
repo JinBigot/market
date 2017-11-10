@@ -1,0 +1,14 @@
+package com.java.item.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+@Controller
+public class ItemIndexController {
+
+	@RequestMapping("/")
+	public String showIndex() {
+		
+		
+		return "item";
+	}
+}

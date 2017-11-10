@@ -1,0 +1,79 @@
+package com.java.item.itemaddmeaaagelistener;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.TextMessage;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+
+import com.java.item.dto.WebItem;
+import com.java.model.TbItem;
+import com.java.model.TbItemDesc;
+import com.java.service.ItemServiceI;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+
+public class ItemAddMessageListener implements MessageListener {
+
+	@Resource
+	private ItemServiceI itemService;
+
+	@Resource
+	private FreeMarkerConfigurer freeMarkerConfigurer;
+
+	@Value("${HTML_OUT_PUT_PATH}")
+	private String HTML_OUT_PUT_PATH;
+
+	@Override
+	public void onMessage(Message message) {
+		try {
+			if (message instanceof TextMessage) {
+				TextMessage textMessage = (TextMessage) message;
+				String sid = textMessage.getText();
+				Long id = Long.parseLong(sid);
+				// 线程休眠，保证事物的隔离==》等待事物提交后才能从数据库查询这条消息
+				Thread.sleep(1000);
+
+				TbItem tbItem = itemService.getItemById(id);
+				TbItemDesc tbItemDesc = itemService.getItemDescById(id);
+				// 通过freemaker来获取静态化的页面
+				Configuration configuration = freeMarkerConfigurer.getConfiguration();
+				// 获取template对象
+				Template template = configuration.getTemplate("item.ftl");
+				Map map = new HashMap<>();
+				WebItem webItem = new WebItem();
+					webItem.setBarcode(tbItem.getBarcode());
+					webItem.setCid(tbItem.getCid());
+					webItem.setCreated(tbItem.getCreated());
+					webItem.setId(tbItem.getId());
+					webItem.setImage(tbItem.getImage());
+					webItem.setNum(tbItem.getNum());
+					webItem.setPrice(tbItem.getPrice());
+					webItem.setSellPoint(tbItem.getSellPoint());
+					webItem.setStatus(tbItem.getStatus());
+					webItem.setTitle(tbItem.getTitle());
+					webItem.setUpdated(tbItem.getUpdated());
+				map.put("item", webItem);
+				map.put("itemDesc", tbItemDesc);
+				Writer writer = new FileWriter(new File(HTML_OUT_PUT_PATH + sid + ".html"));
+				template.process(map, writer);
+				writer.flush();
+				writer.close();
+			}
+		} catch (JMSException | IOException | TemplateException | InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+}
